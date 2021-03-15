@@ -5,7 +5,8 @@ import time
 import random
 from _thread import *
 import wx
-
+import pyautogui
+import math
 
 def getCurTime():
     return int(time.time())
@@ -20,16 +21,27 @@ def listenAFK():
     global lastMoveTime
     global lastMousePos
     global akfEnabled
-    while True: 
-        time.sleep(1)#check or move at most once every second
-
+    while True:
+        time.sleep(30)#check or move at most once every second
         if akfEnabled:
             if (lastMousePos != Controller().position):#check if mouse moved
                 lastMoveTime = getCurTime()#set last moved time to now
                 lastMousePos = Controller().position #update mouse position
                 
             elif ((getCurTime() - lastMoveTime) > 10):
-                mouseController.move(random.randint(-5, 5), random.randint(-1, 1)) #move a little bit in each direction
+                # Radius 
+                R = 30
+                #Location of current mouse pos
+                (X,Y) = lastMousePos
+                # offsetting by radius
+                pyautogui.moveTo(X+R,Y)
+
+                for i in range(360):
+                    # setting pace with a modulus 
+                    if i%6==0:
+                        pyautogui.moveTo(X+R*math.cos(math.radians(i)),Y+R*math.sin(math.radians(i)))
+
+                pyautogui.moveTo(X,Y)
 
 start_new_thread(listenAFK, ()) 
 
