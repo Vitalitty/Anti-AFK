@@ -1,12 +1,9 @@
-#mouse controller and clicker
-
-from pynput.mouse import Controller
 import time
-import random
-from _thread import *
+import math
 import wx
 import pyautogui
-import math
+from pynput.mouse import Controller
+from _thread import *
 
 def getCurTime():
     return int(time.time())
@@ -27,9 +24,9 @@ def listenAFK():
             if (lastMousePos != Controller().position):#check if mouse moved
                 lastMoveTime = getCurTime()#set last moved time to now
                 lastMousePos = Controller().position #update mouse position
-                
+
             elif ((getCurTime() - lastMoveTime) > 10):
-                # Radius 
+                # Radius
                 R = 30
                 #Location of current mouse pos
                 (X,Y) = lastMousePos
@@ -37,16 +34,16 @@ def listenAFK():
                 pyautogui.moveTo(X+R,Y)
 
                 for i in range(360):
-                    # setting pace with a modulus 
+                    # setting pace with a modulus
                     if i%6==0:
                         pyautogui.moveTo(X+R*math.cos(math.radians(i)),Y+R*math.sin(math.radians(i)))
 
                 pyautogui.moveTo(X,Y)
 
-start_new_thread(listenAFK, ()) 
+start_new_thread(listenAFK, ())
 
 class GUIFrame(wx.Frame):
-    
+
     def __init__(self, parent, title):
         super(GUIFrame, self).__init__(parent, title=title)
 
@@ -55,7 +52,7 @@ class GUIFrame(wx.Frame):
         self.SetMaxSize(wx.Size(width=301, height=151))
         self.SetMinSize(wx.Size(width=300, height=150))
         self.SetSize(wx.Size(300, 150))
-        
+
     def InitUI(self):
 
         vbox = wx.BoxSizer(wx.VERTICAL)
@@ -65,7 +62,7 @@ class GUIFrame(wx.Frame):
         self.statusLbl = wx.StaticText(self, label="Status: off")
         self.toggleBtn = wx.Button(self, label='Toggle')
         self.toggleBtn.Bind(wx.EVT_BUTTON, self.toggleOn)
-        
+
         gs.AddMany([
             (wx.StaticText(self, label="Anti-AFK mouse mover"), wx.ALIGN_CENTER , wx.ALIGN_CENTER),
             (self.statusLbl, wx.ALIGN_CENTER , wx.ALIGN_CENTER),
@@ -74,7 +71,7 @@ class GUIFrame(wx.Frame):
 
         vbox.Add(gs, proportion=1, flag=wx.EXPAND)
         self.SetSizer(vbox)
-        
+
     def toggleOn(self, e):
         global akfEnabled
         akfEnabled = not akfEnabled
@@ -90,5 +87,5 @@ def Main():
     frm.Show()
     app.MainLoop()
 
-if __name__ == '__main__': 
-    Main() 
+if __name__ == '__main__':
+    Main()
