@@ -25,7 +25,7 @@ def listenAFK():
                 lastMoveTime = getCurTime()#set last moved time to now
                 lastMousePos = Controller().position #update mouse position
 
-            elif ((getCurTime() - lastMoveTime) > 10):
+            elif ((getCurTime() - lastMoveTime) > 30):
                 # Radius
                 R = 30
                 #Location of current mouse pos
