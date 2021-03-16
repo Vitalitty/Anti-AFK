@@ -1,5 +1,5 @@
 # Anti-AFK
-A python script that detects when your mouse has moved, and moves your mouse a little bit if it has not moved for over 10 seconds (prevents AFK kick on many games).
+A python script that detects when your mouse has moved, and moves your mouse a little bit if it has not moved for over 30 seconds (prevents AFK kick on many games).
 # How it works
 Anti-AFK uses the Python library [pynput](https://pypi.org/project/pynput/) for mouse movement and detection.  Also, [wxPython](https://wxpython.org/) is used for the GUI.
 
